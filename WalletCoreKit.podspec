@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/usetada/TadaWalletKit-iOS.git', :tag => s.version.to_s }
   s.swift_versions = ['5.1', '5.2']
   s.ios.deployment_target = '12.0'
-
+  s.vendored_frameworks = 'WalletCoreKit.xcframework'
   #s.source_files = 'WalletCoreKit/Classes/**/*.{swift}'
   #s.resources = "WalletCoreKit/**/*.{png,jpeg,jpg,storyboard,xib,xcassets,xcdatamodeld,json}"
   # s.resource_bundles = {
