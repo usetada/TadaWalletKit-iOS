@@ -1,6 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name WalletCoreKit
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name WalletCoreKit
+// swift-module-flags-ignorable: -enable-bare-slash-regex
 import CommonCrypto
 import CoreData
 import CoreLocation
@@ -1321,7 +1322,54 @@ public struct CreateBuybackRequest : WalletCoreKit.WalletCoreKitPayload {
   }
 }
 public struct CreateBuybackResponse : Swift.Decodable {
+  public let id: Swift.String?
+  public let maskedId: Swift.String?
+  public let trxNo: Swift.String?
+  public let trxDate: Swift.String?
+  public let cardNo: Swift.String?
+  public let trxType: Swift.String?
+  public let trxAmount: Swift.Double?
+  public let balance: Swift.Double?
+  public let trxStatus: Swift.String?
+  public let description: Swift.String?
+  public let merchant: Swift.String?
+  public let programId: Swift.String?
+  public let programName: Swift.String?
+  public let order: WalletCoreKit.CreateBuybackResponse.Order?
+  public let buyback: WalletCoreKit.CreateBuybackResponse.Buyback?
   public init(from decoder: any Swift.Decoder) throws
+}
+extension WalletCoreKit.CreateBuybackResponse {
+  public struct Buyback : Swift.Decodable {
+    public let id: Swift.String?
+    public let cardNumber: Swift.String?
+    public let bankName: Swift.String?
+    public let accountNumber: Swift.String?
+    public let accountName: Swift.String?
+    public let buybackFeePct: Swift.Double?
+    public let buybackChargeRate: Swift.Double?
+    public let buybackAbsorbBy: Swift.String?
+    public let amount: Swift.Double?
+    public let phone: Swift.String?
+    public let email: Swift.String?
+    public let imageUrl: Swift.String?
+    public let updatedAt: Swift.String?
+    public let createdAt: Swift.String?
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct Order : Swift.Decodable {
+    public let id: Swift.String?
+    public let orderId: Swift.String?
+    public let orderType: Swift.String?
+    public let invoiceNumber: Swift.String?
+    public let total: Swift.Double?
+    public let shipping_fee: Swift.Double?
+    public let total_with_shipping: Swift.Double?
+    public let cardNo: Swift.String?
+    public let description: Swift.String?
+    public let status: Swift.String?
+    public init(from decoder: any Swift.Decoder) throws
+  }
 }
 public struct CreateOrderRequest : WalletCoreKit.WalletCoreKitPayload {
   public init(payment: WalletCoreKit.CreateOrderRequest.Payment, items: [WalletCoreKit.CreateOrderRequest.Item], fee: WalletCoreKit.CreateOrderRequest.Fee? = nil, recipient: WalletCoreKit.CreateOrderRequest.Recipient?, storeId: Swift.String? = nil, shipping: WalletCoreKit.CreateOrderRequest.Shipping?, voucher: WalletCoreKit.CreateOrderRequest.Voucher?, additionalMetaData: WalletCoreKit.CreateOrderRequest.AdditionalMetadata? = nil, customField: [Swift.String : Swift.String]?, pin: Swift.String?)
@@ -10339,6 +10387,7 @@ public struct WalletResponse : Swift.Codable, Swift.Equatable {
   public let usedDate: Swift.String?
   public let iconUrl: Swift.String?
   public let currencyCode: Swift.String?
+  public init(id: Swift.String? = nil, balance: Swift.Double? = nil, balanceName: Swift.String? = nil, balanceType: Swift.String? = nil, brand: Swift.String? = nil, expiredDate: Swift.String? = nil, eGiftList: [WalletCoreKit.WalletResponse.EGiftList]? = nil, groupName: Swift.String? = nil, hasExpiry: Swift.Bool? = nil, image: Swift.String? = nil, isBalance: Swift.Bool? = nil, isBalanceHide: Swift.Bool? = nil, isMerchantActive: Swift.Bool? = nil, isProgramActive: Swift.Bool? = nil, isRegister: Swift.Bool? = nil, mID: Swift.String? = nil, number: Swift.String?, productType: Swift.String? = nil, programID: Swift.String? = nil, programName: Swift.String? = nil, status: Swift.String? = nil, walletID: Swift.String? = nil, cardIcon: Swift.String? = nil, cardProgram: WalletCoreKit.WalletResponse.CardProgramProfile? = nil, subscription: WalletCoreKit.WalletCoreKitCardDetailResponse.Subscription? = nil, isDailyReward: Swift.Bool? = nil, primaryColor: Swift.String? = nil, secondaryColor: Swift.String? = nil, cardProgramIsActive: Swift.Bool? = nil, imageUrl: Swift.String? = nil, usedDate: Swift.String? = nil, iconUrl: Swift.String? = nil, currencyCode: Swift.String? = nil)
   public static func convertToEGiftList(data: WalletCoreKit.WalletResponse) -> WalletCoreKit.Egift
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
