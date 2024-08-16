@@ -8888,6 +8888,18 @@ extension WalletCoreKit.TransactionHistoryUnfinishedOrderResponse {
     public init(from decoder: any Swift.Decoder) throws
   }
 }
+public protocol UIDeviceType {
+  var identifierForVendor: Foundation.UUID? { get }
+  var modelCode: Swift.String { get }
+  var systemName: Swift.String { get }
+  var systemVersion: Swift.String { get }
+  var userInterfaceIdiom: UIKit.UIUserInterfaceIdiom { get }
+}
+extension UIKit.UIDevice : WalletCoreKit.UIDeviceType {
+  @_Concurrency.MainActor(unsafe) public var modelCode: Swift.String {
+    get
+  }
+}
 public struct TransactionItem : Swift.Codable, Swift.Equatable {
   public let id: Swift.String?
   public let type: Swift.String?

@@ -644,6 +644,7 @@ SWIFT_CLASS("_TtC13WalletCoreKit13TadaWalletKit")
 
 
 
+
 SWIFT_CLASS_NAMED("VariantCoreData")
 @interface VariantCoreData : NSManagedObject
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
@@ -1344,6 +1345,7 @@ SWIFT_CLASS("_TtC13WalletCoreKit13TadaWalletKit")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 

@@ -644,6 +644,7 @@ SWIFT_CLASS("_TtC13WalletCoreKit13TadaWalletKit")
 
 
 
+
 SWIFT_CLASS_NAMED("VariantCoreData")
 @interface VariantCoreData : NSManagedObject
 - (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
