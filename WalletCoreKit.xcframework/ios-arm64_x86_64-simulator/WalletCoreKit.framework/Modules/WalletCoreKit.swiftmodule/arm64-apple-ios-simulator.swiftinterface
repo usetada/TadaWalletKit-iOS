@@ -28,6 +28,16 @@ public struct AddCardDetailRequest : WalletCoreKit.WalletCoreKitPayload {
   }
 }
 public struct Additional : Swift.Codable {
+  public let videoUrl: Swift.String?
+  public let urlCode: Swift.String?
+  public let startDate: Swift.String?
+  public let endDate: Swift.String?
+  public let isDecimal: Swift.Bool?
+  public let minimumAmount: WalletCoreKit.WalletCoreKitAnyCodable?
+  public let maximumAmount: WalletCoreKit.WalletCoreKitAnyCodable?
+  public let shareDestination: Swift.String?
+  public let shareType: Swift.String?
+  public let shareValue: Swift.String?
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
@@ -2224,13 +2234,24 @@ public struct InAppNotificationResponse : Swift.Codable {
   @objc deinit
 }
 public struct InfoResponse : Swift.Codable {
+  public let id: Swift.Int?
   public let mId: Swift.String?
+  public let appId: Swift.String?
+  public let brand: Swift.String?
+  public let buttonColor: Swift.String?
   public let countryCode: Swift.String?
+  public let countryName: Swift.String?
+  public let currency: WalletCoreKit.InfoResponse.Currency?
+  public let headerColor: Swift.String?
+  public let iconUrl: Swift.String?
   public let config: WalletCoreKit.MerchantConfig?
   public let allowedPhonePrefix: [WalletCoreKit.WalletCoreKitCountryCode]?
   public let isAllowedAllPhonePrefix: Swift.Bool?
   public let isPreRegistration: Swift.Bool?
+  public let merchantType: Swift.String?
+  public let notificationVendor: Swift.String?
   public let preRegistrationTemplateForm: WalletCoreKit.InfoResponse.PreRegistrationTemplateForm?
+  public let timeZone: Swift.String?
   public func save()
   public static func load() -> WalletCoreKit.InfoResponse?
   public func encode(to encoder: any Swift.Encoder) throws
@@ -2247,6 +2268,19 @@ extension WalletCoreKit.InfoResponse {
     public let type: Swift.String?
     public let name: Swift.String?
     public let questions: [WalletCoreKit.WalletCoreKitCardDetailResponse.Program.RegistrationForm]?
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public struct Currency : Swift.Codable {
+    public let name: Swift.String?
+    public let namePlural: Swift.String?
+    public let symbol: Swift.String?
+    public let symbolNative: Swift.String?
+    public let code: Swift.String?
+    public let decimalDigits: Swift.Int?
+    public let rounding: Swift.Int?
+    public let thousandSeparator: Swift.String?
+    public let decimalSeparator: Swift.String?
     public func encode(to encoder: any Swift.Encoder) throws
     public init(from decoder: any Swift.Decoder) throws
   }
