@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name WalletCoreKit
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name WalletCoreKit
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import CommonCrypto
 import CoreData
 import CoreLocation
@@ -48,9 +48,7 @@ public struct AdditionalData : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
 }
 public struct AdditionalMetadata : WalletCoreKit.WalletCoreKitPayload {
-  public let lat: Swift.Double
-  public let long: Swift.Double
-  public var parameters: [Swift.String : Any] {
+  public var parameters: [Swift.String : Any]? {
     get
   }
 }
@@ -312,17 +310,26 @@ public struct CancelSubscriptionResponse : Swift.Codable {
 }
 @_hasMissingDesignatedInitializers public class Card {
   final public let id: Swift.String
-  final public let balance: Swift.Double
-  final public let balanceName: Swift.String
+  final public let walletId: Swift.String
   final public let cardNumber: Swift.String
-  final public let iconUrl: Swift.String
-  final public let imageUrl: Swift.String
-  final public let programName: Swift.String
   final public let status: Swift.String
-  final public let currencyCode: Swift.String
+  final public let hasExpiry: Swift.Bool
+  final public let expiredAt: Swift.String?
+  final public let programName: Swift.String
+  final public let cardProgramIsActive: Swift.Bool
+  final public let imageUrl: Swift.String?
+  final public let iconUrl: Swift.String?
+  final public let balance: Swift.Double
+  final public let balanceName: Swift.String?
   final public let balanceType: Swift.String
+  final public let isBalance: Swift.Bool?
+  final public let isBalanceHide: Swift.Bool?
+  final public let merchantBrand: Swift.String?
+  final public let merchantIsActive: Swift.Bool
   final public let primaryColor: Swift.String
-  public func getCardIconOrImage() -> Swift.String
+  final public let secondaryColor: Swift.String
+  final public let currencyCode: Swift.String
+  public func getCardIconOrImage() -> Swift.String?
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class CardDetail {
@@ -385,6 +392,33 @@ public struct CardDetailBannersResponse : Swift.Decodable {
   public let bannerValue: Swift.String?
   public let imageUrl: Swift.String?
   public let isRedirect: Swift.Bool?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CardList : Swift.Codable, Swift.Equatable {
+  public let id: Swift.String?
+  public let walletId: Swift.String?
+  public let no: Swift.String?
+  public let status: Swift.String?
+  public let hasExpiry: Swift.Bool?
+  public let expiredAt: Swift.String?
+  public let cardProgramName: Swift.String?
+  public let cardProgramType: Swift.String?
+  public let cardProgramIsActive: Swift.Bool?
+  public let imageUrl: Swift.String?
+  public let iconUrl: Swift.String?
+  public let balanceAmount: Swift.Double?
+  public let balanceName: Swift.String?
+  public let balanceType: Swift.String?
+  public let isBalance: Swift.Bool?
+  public let isBalanceHide: Swift.Bool?
+  public let merchantBrand: Swift.String?
+  public let merchantIsActive: Swift.Bool?
+  public let primaryColor: Swift.String?
+  public let secondaryColor: Swift.String?
+  public let countryName: Swift.String?
+  public let currencyCode: Swift.String?
+  public static func == (a: WalletCoreKit.CardList, b: WalletCoreKit.CardList) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
 public struct CardDetailV2Response : Swift.Codable {
@@ -541,42 +575,11 @@ public struct CardListResponse : Swift.Codable, Swift.Equatable {
   public let page: Swift.Int?
   public let perPage: Swift.Int?
   public let count: Swift.Int?
-  public let data: [WalletCoreKit.CardListResponse.CardList]?
-  public init(success: Swift.Bool?, message: Swift.String?, page: Swift.Int?, perPage: Swift.Int?, count: Swift.Int?, data: [WalletCoreKit.CardListResponse.CardList]?)
+  public let data: [WalletCoreKit.CardList]?
+  public init(success: Swift.Bool?, message: Swift.String?, page: Swift.Int?, perPage: Swift.Int?, count: Swift.Int?, data: [WalletCoreKit.CardList]?)
   public static func == (a: WalletCoreKit.CardListResponse, b: WalletCoreKit.CardListResponse) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
-}
-extension WalletCoreKit.CardListResponse {
-  public struct CardList : Swift.Codable, Swift.Equatable {
-    public let id: Swift.String?
-    public let walletId: Swift.String?
-    public let no: Swift.String?
-    public let status: Swift.String?
-    public let balanceAmount: Swift.Double?
-    public let balanceName: Swift.String?
-    public let balanceType: Swift.String?
-    public let isBalance: Swift.Bool?
-    public let hasExpiry: Swift.Bool?
-    public let expiredAt: Swift.String?
-    public let cardProgramId: Swift.Int?
-    public let cardProgramName: Swift.String?
-    public let cardProgramType: Swift.String?
-    public let merchantId: Swift.Int?
-    public let merchantBrand: Swift.String?
-    public let countryName: Swift.String?
-    public let currencyCode: Swift.String?
-    public let nameColor: Swift.String?
-    public let showNameOnCard: Swift.Bool?
-    public let primaryColor: Swift.String?
-    public let secondaryColor: Swift.String?
-    public let imageUrl: Swift.String?
-    public let iconUrl: Swift.String?
-    public init(id: Swift.String?, walletId: Swift.String?, no: Swift.String?, status: Swift.String?, balanceAmount: Swift.Double?, balanceName: Swift.String?, balanceType: Swift.String?, isBalance: Swift.Bool?, hasExpiry: Swift.Bool?, expiredAt: Swift.String?, cardProgramId: Swift.Int?, cardProgramName: Swift.String?, cardProgramType: Swift.String?, merchantId: Swift.Int?, merchantBrand: Swift.String?, countryName: Swift.String?, currencyCode: Swift.String?, nameColor: Swift.String?, showNameOnCard: Swift.Bool?, primaryColor: Swift.String?, secondaryColor: Swift.String?, imageUrl: Swift.String?, iconUrl: Swift.String?)
-    public static func == (a: WalletCoreKit.CardListResponse.CardList, b: WalletCoreKit.CardListResponse.CardList) -> Swift.Bool
-    public func encode(to encoder: any Swift.Encoder) throws
-    public init(from decoder: any Swift.Decoder) throws
-  }
 }
 public struct CardNotificationPreferencesResponse : Swift.Codable {
   public enum Settings : Swift.String {
@@ -850,9 +853,9 @@ extension WalletCoreKit.CartItemCoreData {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class CashierUseCase {
-  public func scanQrUseAtCashier(useAtCashierScan: WalletCoreKit.ScanQrUseAtCashierRequest, completion: @escaping (Swift.Result<WalletCoreKit.ScanQrUseAtCashierResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
+  public func scanQrUseAtCashier(qrCode: Swift.String, distributionId: Swift.String? = nil, completion: @escaping (Swift.Result<WalletCoreKit.ScanQrUseAtCashierResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   public func checkTerminalUseAtCashier(terminalId: Swift.String, cardId: Swift.String, completion: @escaping (Swift.Result<WalletCoreKit.UseAtCashierResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
-  public func payAtCashier(payAtCashierRequest: WalletCoreKit.PayAtCashierRequest, completion: @escaping (Swift.Result<WalletCoreKit.RedeemAtCashierResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
+  public func payAtCashier(qrString: Swift.String?, distributionId: Swift.String? = nil, pin: Swift.String? = nil, userPin: Swift.String? = nil, amount: Swift.String? = nil, terminalId: Swift.String? = nil, paymentType: Swift.String? = nil, walletName: Swift.String? = nil, additionalMetadata: WalletCoreKit.AdditionalMetadata? = nil, completion: @escaping (Swift.Result<WalletCoreKit.RedeemAtCashierResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   @objc deinit
 }
 public struct CatalogItem : Swift.Codable {
@@ -1283,23 +1286,23 @@ public protocol CountryCodePickerDelegate : AnyObject {
   func countryCodePickerViewControllerDidPickCountry(_ country: WalletCoreKit.CountryCodePickerViewController.Country)
 }
 @objc @_hasMissingDesignatedInitializers @available(iOS 11.0, *)
-@_Concurrency.MainActor(unsafe) public class CountryCodePickerViewController : UIKit.UITableViewController {
-  @_Concurrency.MainActor(unsafe) final public let phoneNumberKit: WalletCoreKit.PhoneNumberKit
-  @_Concurrency.MainActor(unsafe) weak public var delegate: (any WalletCoreKit.CountryCodePickerDelegate)?
-  @_Concurrency.MainActor(unsafe) public init(phoneNumberKit: WalletCoreKit.PhoneNumberKit, commonCountryCodes: [Swift.String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, titleForHeaderInSection section: Swift.Int) -> Swift.String?
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func sectionIndexTitles(for tableView: UIKit.UITableView) -> [Swift.String]?
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+@_Concurrency.MainActor @preconcurrency public class CountryCodePickerViewController : UIKit.UITableViewController {
+  @_Concurrency.MainActor @preconcurrency final public let phoneNumberKit: WalletCoreKit.PhoneNumberKit
+  @_Concurrency.MainActor @preconcurrency weak public var delegate: (any WalletCoreKit.CountryCodePickerDelegate)?
+  @_Concurrency.MainActor @preconcurrency public init(phoneNumberKit: WalletCoreKit.PhoneNumberKit, commonCountryCodes: [Swift.String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, titleForHeaderInSection section: Swift.Int) -> Swift.String?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func sectionIndexTitles(for tableView: UIKit.UITableView) -> [Swift.String]?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
   @objc deinit
 }
 @available(iOS 11.0, *)
 extension WalletCoreKit.CountryCodePickerViewController : UIKit.UISearchResultsUpdating {
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func updateSearchResults(for searchController: UIKit.UISearchController)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func updateSearchResults(for searchController: UIKit.UISearchController)
 }
 @available(iOS 11.0, *)
 extension WalletCoreKit.CountryCodePickerViewController {
@@ -1310,7 +1313,7 @@ extension WalletCoreKit.CountryCodePickerViewController {
     public var prefix: Swift.String
     public init?(for countryCode: Swift.String, with phoneNumberKit: WalletCoreKit.PhoneNumberKit)
   }
-  @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class Cell : UIKit.UITableViewCell {
+  @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class Cell : UIKit.UITableViewCell {
     @objc deinit
   }
 }
@@ -1382,7 +1385,7 @@ extension WalletCoreKit.CreateBuybackResponse {
   }
 }
 public struct CreateOrderRequest : WalletCoreKit.WalletCoreKitPayload {
-  public init(payment: WalletCoreKit.CreateOrderRequest.Payment, items: [WalletCoreKit.CreateOrderRequest.Item], fee: WalletCoreKit.CreateOrderRequest.Fee? = nil, recipient: WalletCoreKit.CreateOrderRequest.Recipient?, storeId: Swift.String? = nil, shipping: WalletCoreKit.CreateOrderRequest.Shipping?, voucher: WalletCoreKit.CreateOrderRequest.Voucher?, additionalMetaData: WalletCoreKit.CreateOrderRequest.AdditionalMetadata? = nil, customField: [Swift.String : Swift.String]?, pin: Swift.String?)
+  public init(payment: WalletCoreKit.CreateOrderRequest.Payment, items: [WalletCoreKit.CreateOrderRequest.Item], fee: WalletCoreKit.CreateOrderRequest.Fee? = nil, recipient: WalletCoreKit.CreateOrderRequest.Recipient?, storeId: Swift.String? = nil, shipping: WalletCoreKit.CreateOrderRequest.Shipping?, voucher: WalletCoreKit.CreateOrderRequest.Voucher?, additionalMetaData: WalletCoreKit.AdditionalMetadata? = nil, customField: [Swift.String : Swift.String]?, pin: Swift.String?)
   public mutating func setPin(pin: Swift.String)
   public var parameters: [Swift.String : Any]? {
     get
@@ -1427,11 +1430,6 @@ extension WalletCoreKit.CreateOrderRequest {
   }
   public struct Recipient : WalletCoreKit.WalletCoreKitPayload {
     public init(firstName: Swift.String, lastName: Swift.String? = nil, email: Swift.String? = nil, phone: Swift.String?, cityId: Swift.String?, areaId: Swift.String?, address: Swift.String?, postalCode: Swift.String?)
-    public var parameters: [Swift.String : Any]? {
-      get
-    }
-  }
-  public struct AdditionalMetadata : WalletCoreKit.WalletCoreKitPayload {
     public var parameters: [Swift.String : Any]? {
       get
     }
@@ -2297,11 +2295,19 @@ extension Swift.Int {
   public func priceFormat(prefix: Swift.String) -> Swift.String
   public func priceFormat(currencyPrefix: Swift.String, decimalDigit: Swift.Int = 0) -> Swift.String
 }
+#if compiler(>=5.3) && $NoncopyableGenerics
 extension Swift.Optional where Wrapped == Swift.Int {
   public var getStringOrNil: Swift.String? {
     get
   }
 }
+#else
+extension Swift.Optional where Wrapped == Swift.Int {
+  public var getStringOrNil: Swift.String? {
+    get
+  }
+}
+#endif
 @_inheritsConvenienceInitializers @objc(ItemCoreData) public class ItemCoreData : CoreData.NSManagedObject {
   @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
   @objc deinit
@@ -4147,7 +4153,7 @@ extension WalletCoreKit.OtpVerificationCoreData {
   @objc deinit
 }
 public struct PayAtCashierRequest : WalletCoreKit.WalletCoreKitPayload {
-  public init(qrString: Swift.String?, distributionId: Swift.String, pin: Swift.String, amount: Swift.String, terminalId: Swift.String, paymentType: Swift.String, walletName: Swift.String, additionalMetadata: WalletCoreKit.AdditionalMetadata? = nil)
+  public init(qrString: Swift.String?, distributionId: Swift.String? = nil, pin: Swift.String? = nil, userPin: Swift.String? = nil, amount: Swift.String? = nil, terminalId: Swift.String? = nil, paymentType: Swift.String? = nil, walletName: Swift.String? = nil, additionalMetadata: WalletCoreKit.AdditionalMetadata? = nil)
   public var parameters: [Swift.String : Any]? {
     get
   }
@@ -4470,92 +4476,92 @@ extension WalletCoreKit.PhoneNumberKit {
     public static var forceModalPresentation: Swift.Bool
   }
 }
-@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class PhoneNumberTextField : UIKit.UITextField, UIKit.UITextFieldDelegate {
-  @_Concurrency.MainActor(unsafe) final public let phoneNumberKit: WalletCoreKit.PhoneNumberKit
-  @_Concurrency.MainActor(unsafe) public var flagButton: UIKit.UIButton {
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class PhoneNumberTextField : UIKit.UITextField, UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor @preconcurrency final public let phoneNumberKit: WalletCoreKit.PhoneNumberKit
+  @_Concurrency.MainActor @preconcurrency public var flagButton: UIKit.UIButton {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var text: Swift.String? {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var text: Swift.String? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) open func setTextUnformatted(newValue: Swift.String?)
-  @_Concurrency.MainActor(unsafe) open var defaultRegion: Swift.String {
+  @_Concurrency.MainActor @preconcurrency open func setTextUnformatted(newValue: Swift.String?)
+  @_Concurrency.MainActor @preconcurrency open var defaultRegion: Swift.String {
     get
     @available(*, deprecated, message: "    The setter of defaultRegion is deprecated,\n    please override defaultRegion in a subclass instead.")
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withPrefix: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withPrefix: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withFlag: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withFlag: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withExamplePlaceholder: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withExamplePlaceholder: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var countryCodePlaceholderColor: UIKit.UIColor {
+  @_Concurrency.MainActor @preconcurrency public var countryCodePlaceholderColor: UIKit.UIColor {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var numberPlaceholderColor: UIKit.UIColor {
+  @_Concurrency.MainActor @preconcurrency public var numberPlaceholderColor: UIKit.UIColor {
     get
     set
   }
   @available(iOS 11.0, *)
-  @_Concurrency.MainActor(unsafe) public var withDefaultPickerUI: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withDefaultPickerUI: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var isPartialFormatterEnabled: Swift.Bool
-  @_Concurrency.MainActor(unsafe) public var maxDigits: Swift.Int? {
+  @_Concurrency.MainActor @preconcurrency public var isPartialFormatterEnabled: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency public var maxDigits: Swift.Int? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var partialFormatter: WalletCoreKit.PartialFormatter {
+  @_Concurrency.MainActor @preconcurrency public var partialFormatter: WalletCoreKit.PartialFormatter {
     get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var delegate: (any UIKit.UITextFieldDelegate)? {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var delegate: (any UIKit.UITextFieldDelegate)? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) public var currentRegion: Swift.String {
+  @_Concurrency.MainActor @preconcurrency public var currentRegion: Swift.String {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var nationalNumber: Swift.String {
+  @_Concurrency.MainActor @preconcurrency public var nationalNumber: Swift.String {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var isValidNumber: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var isValidNumber: Swift.Bool {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var phoneNumber: WalletCoreKit.PhoneNumber? {
+  @_Concurrency.MainActor @preconcurrency public var phoneNumber: WalletCoreKit.PhoneNumber? {
     get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
-  @_Concurrency.MainActor(unsafe) convenience public init(withPhoneNumberKit phoneNumberKit: WalletCoreKit.PhoneNumberKit)
-  @_Concurrency.MainActor(unsafe) public init(frame: CoreFoundation.CGRect, phoneNumberKit: WalletCoreKit.PhoneNumberKit)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init(coder aDecoder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) open func updateFlag()
-  @_Concurrency.MainActor(unsafe) open func updatePlaceholder()
-  @_Concurrency.MainActor(unsafe) @objc open func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency convenience public init(withPhoneNumberKit phoneNumberKit: WalletCoreKit.PhoneNumberKit)
+  @_Concurrency.MainActor @preconcurrency public init(frame: CoreFoundation.CGRect, phoneNumberKit: WalletCoreKit.PhoneNumberKit)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func updateFlag()
+  @_Concurrency.MainActor @preconcurrency open func updatePlaceholder()
+  @_Concurrency.MainActor @preconcurrency @objc open func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField)
   @available(iOS 10.0, tvOS 10.0, *)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField, reason: UIKit.UITextField.DidEndEditingReason)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldClear(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField, reason: UIKit.UITextField.DidEndEditingReason)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldClear(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
   @objc deinit
 }
 @available(iOS 11.0, *)
 extension WalletCoreKit.PhoneNumberTextField : WalletCoreKit.CountryCodePickerDelegate {
-  @_Concurrency.MainActor(unsafe) public func countryCodePickerViewControllerDidPickCountry(_ country: WalletCoreKit.CountryCodePickerViewController.Country)
+  @_Concurrency.MainActor @preconcurrency public func countryCodePickerViewControllerDidPickCountry(_ country: WalletCoreKit.CountryCodePickerViewController.Country)
 }
 @_hasMissingDesignatedInitializers public class PinInfo {
   final public let isHavePin: Swift.Bool
@@ -5033,7 +5039,7 @@ public struct RateAppRequest : WalletCoreKit.WalletCoreKitPayload {
   }
 }
 @_hasMissingDesignatedInitializers public class ReceiptUseCase {
-  public func scanReceipt(qrPointScan: WalletCoreKit.ScanReceiptRequest, completion: @escaping (Swift.Result<WalletCoreKit.ScanReceiptResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
+  public func scanReceipt(content: Swift.String, cardNumber: Swift.String? = nil, otherCardNumber: Swift.String? = nil, additionalMetadata: WalletCoreKit.AdditionalMetadata? = nil, completion: @escaping (Swift.Result<WalletCoreKit.ScanReceiptResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   @objc deinit
 }
 public struct RedeemAtCashierResponse : Swift.Decodable {
@@ -5485,7 +5491,7 @@ public struct RemoveShippingAddressResponse : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
 }
 public struct ScanQrUseAtCashierRequest : WalletCoreKit.WalletCoreKitPayload {
-  public init(qrCode: Swift.String, distributionId: Swift.String)
+  public init(qrCode: Swift.String, distributionId: Swift.String? = nil)
   public var parameters: [Swift.String : Any]? {
     get
   }
@@ -5529,7 +5535,7 @@ extension WalletCoreKit.ScanQrUseAtCashierResponse.Store {
   }
 }
 public struct ScanReceiptRequest : WalletCoreKit.WalletCoreKitPayload {
-  public init(QRCode: Swift.String, cardNumber: Swift.String?)
+  public init(qrCode: Swift.String, cardNumber: Swift.String?, scanForCardNumber: Swift.String? = nil, additionalMetaData: WalletCoreKit.AdditionalMetadata? = nil)
   public var parameters: [Swift.String : Any]? {
     get
   }
@@ -8930,7 +8936,7 @@ public protocol UIDeviceType {
   var userInterfaceIdiom: UIKit.UIUserInterfaceIdiom { get }
 }
 extension UIKit.UIDevice : WalletCoreKit.UIDeviceType {
-  @_Concurrency.MainActor(unsafe) public var modelCode: Swift.String {
+  @_Concurrency.MainActor @preconcurrency public var modelCode: Swift.String {
     get
   }
 }
@@ -9109,6 +9115,7 @@ public struct User : Swift.Decodable {
   public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class UserUseCase {
+  public func getLoggedInInfo() -> WalletCoreKit.ProfileResponse?
   @objc deinit
 }
 public enum ValueWrapper : Swift.Codable, Swift.Equatable, Swift.Hashable {
@@ -10399,6 +10406,7 @@ public struct WalletResponse : Swift.Codable, Swift.Equatable {
   public let _balanceName: Swift.String?
   public let _balanceType: Swift.String?
   public let brand: Swift.String?
+  public let merchantBrand: Swift.String?
   public let expiredDate: Swift.String?
   public let eGiftList: [WalletCoreKit.WalletResponse.EGiftList]?
   public let groupName: Swift.String?
@@ -10433,7 +10441,7 @@ public struct WalletResponse : Swift.Codable, Swift.Equatable {
   public let usedDate: Swift.String?
   public let iconUrl: Swift.String?
   public let currencyCode: Swift.String?
-  public init(id: Swift.String? = nil, balance: Swift.Double? = nil, balanceName: Swift.String? = nil, balanceType: Swift.String? = nil, brand: Swift.String? = nil, expiredDate: Swift.String? = nil, eGiftList: [WalletCoreKit.WalletResponse.EGiftList]? = nil, groupName: Swift.String? = nil, hasExpiry: Swift.Bool? = nil, image: Swift.String? = nil, isBalance: Swift.Bool? = nil, isBalanceHide: Swift.Bool? = nil, isMerchantActive: Swift.Bool? = nil, isProgramActive: Swift.Bool? = nil, isRegister: Swift.Bool? = nil, mID: Swift.String? = nil, number: Swift.String?, productType: Swift.String? = nil, programID: Swift.String? = nil, programName: Swift.String? = nil, status: Swift.String? = nil, walletID: Swift.String? = nil, cardIcon: Swift.String? = nil, cardProgram: WalletCoreKit.WalletResponse.CardProgramProfile? = nil, subscription: WalletCoreKit.WalletCoreKitCardDetailResponse.Subscription? = nil, isDailyReward: Swift.Bool? = nil, primaryColor: Swift.String? = nil, secondaryColor: Swift.String? = nil, cardProgramIsActive: Swift.Bool? = nil, imageUrl: Swift.String? = nil, usedDate: Swift.String? = nil, iconUrl: Swift.String? = nil, currencyCode: Swift.String? = nil)
+  public init(id: Swift.String? = nil, balance: Swift.Double? = nil, balanceName: Swift.String? = nil, balanceType: Swift.String? = nil, brand: Swift.String? = nil, expiredDate: Swift.String? = nil, eGiftList: [WalletCoreKit.WalletResponse.EGiftList]? = nil, groupName: Swift.String? = nil, hasExpiry: Swift.Bool? = nil, image: Swift.String? = nil, isBalance: Swift.Bool? = nil, isBalanceHide: Swift.Bool? = nil, isMerchantActive: Swift.Bool? = nil, isProgramActive: Swift.Bool? = nil, isRegister: Swift.Bool? = nil, mID: Swift.String? = nil, number: Swift.String?, productType: Swift.String? = nil, programID: Swift.String? = nil, programName: Swift.String? = nil, status: Swift.String? = nil, walletID: Swift.String? = nil, cardIcon: Swift.String? = nil, cardProgram: WalletCoreKit.WalletResponse.CardProgramProfile? = nil, subscription: WalletCoreKit.WalletCoreKitCardDetailResponse.Subscription? = nil, isDailyReward: Swift.Bool? = nil, primaryColor: Swift.String? = nil, secondaryColor: Swift.String? = nil, cardProgramIsActive: Swift.Bool? = nil, imageUrl: Swift.String? = nil, usedDate: Swift.String? = nil, iconUrl: Swift.String? = nil, currencyCode: Swift.String? = nil, merchantBrand: Swift.String? = nil)
   public static func convertToEGiftList(data: WalletCoreKit.WalletResponse) -> WalletCoreKit.Egift
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -10519,7 +10527,7 @@ extension WalletCoreKit.WalletResponse {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class WalletUseCase {
-  public func getCardList(page: Swift.Int = 1, perPage: Swift.Int = 25, completion: @escaping (Swift.Result<WalletCoreKit.PaginatedResult<WalletCoreKit.Card>, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
+  public func getCardList(group: WalletCoreKit.WalletGroup = .default, page: Swift.Int = 1, perPage: Swift.Int = 25, completion: @escaping (Swift.Result<WalletCoreKit.PaginatedResult<WalletCoreKit.Card>, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   public func searchWallets(keyword: Swift.String, completion: @escaping (Swift.Result<WalletCoreKit.SearchCardsResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   public func deleteWallet(walletId: Swift.String, completion: @escaping (Swift.Result<WalletCoreKit.MessageResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
   public func deleteWallets(walletIds: [Swift.String], completion: @escaping (Swift.Result<WalletCoreKit.MessageResponse, WalletCoreKit.TadaWalletKitError>) -> Swift.Void)
