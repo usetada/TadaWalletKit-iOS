@@ -48,6 +48,7 @@ public struct AdditionalData : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws
 }
 public struct AdditionalMetadata : WalletCoreKit.WalletCoreKitPayload {
+  public init(lat: Swift.Double?, long: Swift.Double?)
   public var parameters: [Swift.String : Any]? {
     get
   }
